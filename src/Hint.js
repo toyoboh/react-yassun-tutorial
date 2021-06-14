@@ -35,7 +35,6 @@ export const Hint = () => {
     const [showPopup, setShowPopup] = useState(false);
 
     const ref = useRef(null);
-    const test = useRef(null);
 
     useEffect(() => {
         if(ref.current) ref.current.focus();
