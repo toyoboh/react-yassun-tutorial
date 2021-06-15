@@ -1,19 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import { List } from "./List";
+import { Form } from "./Form";
+import styled from "styled-components";
+import { Header } from "./Header";
+import { ThemeContext } from "./contexts/ThemeContext";
 
-function App() {
-  const [description, setDescription] = useState("クリック前の表示");
+const Container = styled.div`
+  height: 100%;
+  color: ${({ theme }) => theme.color};
+  background-color: ${({ theme }) => theme.backgroundColor};
+`;
 
-  const changeDescription = () => {
-    setDescription("クリック後の表示");
+function App({ data }) {
+  const [tab, setTab] = useState("list");
+  const [langs, setLangs] = useState(data);
+  
+  const [theme] = useContext(ThemeContext);
+
+  const addLang = (lang) => {
+    setLangs([...langs, lang]);
+    setTab("list");
   }
 
   return (
-    <div>
-      { description }
-      <List title="取り扱い言語一覧" />
-      <button onClick={ () => changeDescription() }>ボタン</button>
-    </div>
+    <Container theme={theme}>
+      <Header tab={ tab } setTab={ setTab } />
+      {
+        tab === "list" ? <List langs={langs} /> : <Form onAddLang={addLang} />
+      }
+    </Container>
   );
 }
 
